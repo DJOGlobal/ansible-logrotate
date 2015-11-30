@@ -1,0 +1,23 @@
+---
+
+  logrotate_distro:
+    - 'apt'  
+    - 'aptitude'  
+    - 'dpkg'  
+    - 'rsyslog'  
+    - 'ufw'  
+    - 'unattended-upgrades'  
+    - 'upstart'
+
+  logrotate_defaults:
+    - name: bash-history
+      path: /var/log/bash_history.log
+      options:
+        - rotate 7
+        - daily
+        - missingok
+        - notifempty
+        - delaycompress
+        - compress
+      scripts:
+        postrotate: "reload rsyslog >/dev/null 2>&1 || true"
