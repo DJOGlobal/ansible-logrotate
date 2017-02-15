@@ -9,19 +9,19 @@
 
   - name: clear out all but distro configs
     file: name='/etc/logrotate.d/{{ item }}' state='absent'
-    with_items: logrotated_contents.stdout_lines
+    with_items: "{{logrotated_contents.stdout_lines}}"
     when: item not in logrotate_distro
 
   - name: setup logrotate.d defaults
     template: src='logrotate.d.j2'
               dest='/etc/logrotate.d/{{ item.name }}'
               owner='root' group='root' mode='0644'
-    with_items: logrotate_defaults
+    with_items: "{{logrotate_defaults}}"
     when: logrotate_defaults is defined and logrotate_defaults != []
 
   - name: setup logrotate.d scripts
     template: src='logrotate.d.j2'
               dest='/etc/logrotate.d/{{ item.name }}'
               owner='root' group='root' mode='0644'
-    with_items: logrotate_scripts
+    with_items: "{{logrotate_scripts}}"
     when: logrotate_scripts is defined and logrotate_scripts != []
